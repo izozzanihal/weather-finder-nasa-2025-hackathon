@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Comfort Checker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌤️ Weather Comfort Checker</h1>
+            <p>Select a city to check today’s comfort level</p>
+        </header>
+
+        <!-- City Selector -->
+        <form method="POST" class="city-form">
+            <select name="city">
+                {% for c in cities %}
+                <option value="{{c}}" {% if city == c %}selected{% endif %}>{{c}}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Check Weather</button>
+        </form>
+
+        <!-- Weather Card -->
+        {% if city %}
+        <div class="weather-card">
+            <h2>{{ city }}</h2>
+            <p class="date">{{ date }}</p>
+
+            <div class="temp-box">
+                <div>Min<br><span>{{ data.temp - 3 }}°C</span></div>
+                <div class="avg">Avg<br><span>{{ data.temp }}°C</span></div>
+                <div>Max<br><span>{{ data.temp + 4 }}°C</span></div>
+            </div>
+
+            <div class="details">
+                <div>💧 Humidity: {{ data.humidity }}%</div>
+                <div>💨 Wind: {{ data.wind }} m/s</div>
+                <div>🧭 Direction: {{ data.direction }}°</div>
+                <div>🌤️ Sky: {{ data.sky }}</div>
+            </div>
+
+            <p class="summary">{{ summary }}</p>
+
+            <!-- Comfort Bar -->
+            <div class="comfort">
+                <span>{{ comfort }}</span>
+                <div class="bar">
+                    <div class="fill {{ comfort_class }}"></div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
